@@ -1,0 +1,27 @@
+services:
+  terraform-server:
+    hostname: terraform-server
+    container_name: terraform-server
+    image: fallewi/datascientest-labs:ubuntu
+    ports: 
+     - ${UBUNTUC_PORT_SSHD}:22
+     - ${UBUNTUC_PORT_TTYD}:7681
+    privileged: true
+    volumes:
+     - ${CONFIG}:/config
+     - ${ANSIBLE_HOME}/shared:/shared
+     - ${ANSIBLE_HOME}/ubuntu-c/ansible:/home/ansible
+     - ${ANSIBLE_HOME}/ubuntu-c/root:/root
+    networks:
+     - datascientest-network-terraform
+
+networks:
+  datascientest-network:
+    name: datascientest-network-terraform
+    # Canonical bridge interface name
+    #
+    # The setting below provides a friendly name for the bridge interface
+    # as seen in the likes of the ip command.  Use at your own discretion
+    #
+    #driver_opts:
+    #  com.docker.network.bridge.name: "datascientest-network"

@@ -1,0 +1,28 @@
+services:
+  gitlab-runner:
+    hostname: gitlab-runner
+    container_name: gitlab-runner
+    image: fallewi/datascientest-labs:ansible
+    ports: 
+     - ${UBUNTUC_PORT_SSHD}:22
+     - ${UBUNTUC_PORT_TTYD}:7681
+    privileged: true
+    volumes:
+     - ${CONFIG}:/config
+     - ${ANSIBLE_HOME}/shared:/shared
+     - ${ANSIBLE_HOME}/ubuntu-c/ansible:/home/ansible
+     - ${ANSIBLE_HOME}/ubuntu-c/root:/root
+    networks:
+     - datascientest-network-gitlab
+
+
+networks:
+  datascientest-network:
+    name: datascientest-network-gitlab
+    # Canonical bridge interface name
+    #
+    # The setting below provides a friendly name for the bridge interface
+    # as seen in the likes of the ip command.  Use at your own discretion
+    #
+    #driver_opts:
+    #  com.docker.network.bridge.name: "datascientest-network"

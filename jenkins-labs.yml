@@ -1,0 +1,29 @@
+services:
+  jenkins-master:
+    hostname: jenkins-master
+    container_name: jenkins-master
+    image: fallewi/datascientest-labs:ubuntu
+    ports: 
+     - ${jenkins-master_PORT_SSHD}:22
+     - ${jenkins-master_PORT_TTYD}:7681
+    privileged: true
+    volumes:
+     - ${CONFIG}:/config
+     - ${ANSIBLE_HOME}/shared:/shared
+     - ${ANSIBLE_HOME}/jenkins-master/ansible:/home/ansible
+     - ${ANSIBLE_HOME}/jenkins-master/root:/root
+    ports:
+     - 8000:8000
+    networks:
+     - datascientest-network-jenkins
+
+networks:
+  datascientest-network:
+    name: datascientest-network
+    # Canonical bridge interface name
+    #
+    # The setting below provides a friendly name for the bridge interface
+    # as seen in the likes of the ip command.  Use at your own discretion
+    #
+    #driver_opts:
+    #  com.docker.network.bridge.name: "datascientest-network"
